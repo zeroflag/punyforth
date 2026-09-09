@@ -987,7 +987,11 @@ def main():
     # or be a member function of the ESPROM class.
 
     operation_func = globals()[args.operation]
-    operation_args,_,_,_ = inspect.getargspec(operation_func)
+    if hasattr(inspect, 'getfullargspec'):
+      operation_args, _, _, _, _, _, _ = inspect.getfullargspec(operation_func)
+    else:
+      operation_args,_,_,_ = inspect.getargspec(operation_func)
+
     if operation_args[0] == 'esp':  # operation function takes an ESPROM connection object
         esp = ESPROM(args.port, args.baud)
         esp.connect()

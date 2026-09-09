@@ -8,7 +8,7 @@ MAX_LINE_LEN = max_line_len=128 - len(os.linesep)
 
 class BlockNumber:
     @staticmethod
-    def from_address(addr): return BlockNumber(addr / SECTOR_SIZE)
+    def from_address(addr): return BlockNumber(addr // SECTOR_SIZE)
     def __init__(self, num): self.num = num
     def __str__(self): return str(self.num)
 
@@ -79,7 +79,7 @@ class Code:
             raise RuntimeError('Input overflow at line: "%s"' % [line for line in self.content.split('\n') if len(line) >= max_line_len][0])
     
     def flash_usage(self):
-        return (len(self.content) / SECTOR_SIZE + 1) * SECTOR_SIZE
+        return (len(self.content) // SECTOR_SIZE + 1) * SECTOR_SIZE
 
     def flashable(self, address):
         return Flashable(self.name, address, self._save("%s.tmp" % self.name))
@@ -125,7 +125,7 @@ class Modules:
         return self
 
     def select(self, module_filter):
-        print 'Selected modules: %s' % module_filter
+        print('Selected modules: %s' % module_filter)
         self.module_filter = module_filter
     
     def selected(self):
@@ -180,12 +180,12 @@ class Esp:
         self.flashmode = flashmode
 
     def write_flash(self, address, path):
-        print 'Flashing %s' % os.path.basename(path)
+        print('Flashing %s' % os.path.basename(path))
         os.system("python esptool.py -p %s write_flash -fm %s -ff 40m 0x%x %s" % (self.port, self.flashmode, address, path))
 
     def write_flash_many(self, tupl):
         if not tupl: return
-        print 'Flashing %s' % ', '.join('0x%x: %s' % (address, os.path.basename(path)) for (address, path) in tupl)
+        print('Flashing %s' % ', '.join('0x%x: %s' % (address, os.path.basename(path)) for (address, path) in tupl))
         os.system("python esptool.py -p %s write_flash -fs 32m -fm %s -ff 40m %s" % (self.port, self.flashmode, ' '.join("0x%x %s" % each for each in tupl)))
 
 class CommandLine:

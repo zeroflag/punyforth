@@ -17,7 +17,7 @@ GPIO load
 \ (1) Using IO trigger for at least 10us high level signal,
 \ (2) The Module automatically sends eight 40 kHz and detect whether there is a pulse signal back.
 \ (3) IF the signal back, time of high output IO duration is the time from sending ultrasonic to returning.
-\ Distance = (high level time×velocity of sound (340M/S) / 2, 
+\ Distance = (high level time velocity of sound (340M/S) / 2, 
 \ Usage example: PIN_ECHO 100 cm>timeout PIN_TRIGGER ping pulse>cm
 : ping ( echo-pin timeout-us trigger-pin -- pulse-duration-us )
     os-enter-critical
