@@ -33,7 +33,6 @@ variable: angle
 : convert ( -- n )
   buf    c@ 8 lshift
   buf 1+ c@   or
-  16rFFF      and
   360 *  12   rshift ;
 
 : read-raw-angle ( -- n )
@@ -54,9 +53,11 @@ variable: angle
     magnet-detected? if
       read-angle
       dup angle @ changed? if
-        dup . cr
+        angle !
+        angle @ . cr
+      else
+        drop
       then
-      angle !
       10 ms
     else
       print: "Status:" status . cr
