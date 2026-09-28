@@ -6,7 +6,6 @@ NETCON load
 3               constant: MIN_CHANGE
 
 variable: voltage
-variable: server
 
 : read-pot ( -- n )
   adc-read
